@@ -1,0 +1,23 @@
+[
+  {
+    "name": "helloWorld",
+    "path": "",
+    "icon": "data/img/smile.png",
+    "args": "testData/bin/helloWorld.sh",
+    "terminal": true
+  },
+  {
+    "name":"xeyes",
+    "path":"",
+    "icon":"",
+    "args":"xeyes &",
+    "terminal": true
+  },
+  {
+    "name": "Telegram",
+    "path": "/opt/telegram/Telegram",
+    "icon": "data/MyIcons/telegram.png",
+    "args": "",
+    "terminal": false
+  }
+]
