@@ -1,0 +1,1 @@
+[{"name": "Telegram", "icon": "/home/jose/Downloads/telegram.png", "path": "/opt/telegram/Telegram", "args": "", "terminal": false},{"name":"ScreenRecorder","icon":"/home/jose/Downloads/srec.png","path":"","args":"simplescreenrecorder", "terminal": true}]

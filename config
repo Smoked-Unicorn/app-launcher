@@ -1,0 +1,6 @@
+IMG_FOLDER=data/img/
+DB_FILE=data/db.json
+BASE_FOLDER=data/
+DEF_ICON=data/img/default.png
+TERMINAL=/usr/bin/gnome-terminal
+USR_IMG_FOLDER=data/MyIcons/
