@@ -27,6 +27,5 @@ public class EntryFormListenerRequest {
     public EntryFormListenerRequest(Object o, FormAction a) {
         resource = o;
         action = a;
-
     }
 }

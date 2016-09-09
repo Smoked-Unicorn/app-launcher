@@ -32,7 +32,10 @@ public class StaticRef {
                                 SAVE_ICON       = null,
                                 LOAD_ICON       = null,
                                 ADD_ICON        = null,
-                                DEL_ICON        = null;
+                                DEL_ICON        = null,
+                                LOG_ON          = null,
+                                LOG_OFF         = null,
+                                EDIT_ICON       = null;
 
     public static String BASE_FOLDER    = "data/";
     public static String DB_FILE        = BASE_FOLDER + "db.json";
@@ -45,7 +48,9 @@ public class StaticRef {
                             SAVE_ICON_PATH      = IMG_FOLDER + "disk.png",
                             DEL_ICON_PATH       = IMG_FOLDER + "del.png",
                             ADD_ICON_PATH       = IMG_FOLDER + "add.png",
-                            USR_IMG_FOLDER      = BASE_FOLDER + "MyIcons/";
+                            USR_IMG_FOLDER      = BASE_FOLDER + "MyIcons/",
+                            LOG_IMG             = IMG_FOLDER + "switch_",
+                            EDIT_ICON_PATH      = IMG_FOLDER + "edit.png";
 
     public static String    WARN    = "Warning: ",
                             OK      = "Success: ",
@@ -77,6 +82,9 @@ public class StaticRef {
             LOAD_ICON       = singleImageLoad(LOAD_ICON_PATH, "Load");
             ADD_ICON        = singleImageLoad(ADD_ICON_PATH, "Add");
             DEL_ICON        = singleImageLoad(DEL_ICON_PATH, "Del");
+            LOG_ON          = singleImageLoad(LOG_IMG + "on.png", "Log on");
+            LOG_OFF         = singleImageLoad(LOG_IMG + "off.png", "Log off");
+            EDIT_ICON       = singleImageLoad(EDIT_ICON_PATH, "Edit");
             System.out.println("Load step finished.");
 
         System.out.println("Load done.");
@@ -147,6 +155,7 @@ public class StaticRef {
         System.out.println("Creating a new Config file: With the current settings.");
         File conf = new File(CONFIG_FILE);
         System.out.println("\t\tTrying at: " +conf.getAbsolutePath());
+
         try {
             if (!conf.isFile())
                 conf.createNewFile();
@@ -181,7 +190,7 @@ public class StaticRef {
         }
         switch (key) {
             case "IMG_FOLDER":
-                IMG_FOLDER = BASE_FOLDER + value;
+                IMG_FOLDER = value;
                 break;
             case "DB_FILE":
                 DB_FILE  = value;

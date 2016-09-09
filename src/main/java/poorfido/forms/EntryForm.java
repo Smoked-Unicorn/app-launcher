@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.io.File;
 
+import static poorfido.Utilities.seekStart;
+
 
 /**
  * Created by jose on 15/08/16.
@@ -55,26 +57,37 @@ public class EntryForm implements Form {
         isInTerminal = null;
     }
 
-    private String seekStart(String str) {
-        int start = 0;
-        if (str == null) return "";
-        if (str.equals("")) return "";
-        while (start < str.length() && (str.charAt(start) == '\n' ||
-                str.charAt(start) == ' ' || str.charAt(start) == '\t'))
-            ++start;
-        return str.substring(start);
-    }
-
     private boolean valid(String str) {
         return str != null && !seekStart(str).equals("");
     }
+
+
 
     private boolean validForm() {
         name = nameField.getText();
         icon = iconField.getText();
         path = pathField.getText();
         args = argsField.getText();
-        return valid(name) && valid(path) && icon != null && args != null;
+        boolean okPath = valid(path), okName = valid(name);
+
+        if (!okName)
+            err("Name required!");
+
+        if (isInTerminal.isSelected()) {
+
+            pathField.setText("") ;
+            if (valid(path)){
+                say("In Terminal: no file required.");
+                path = "";
+            }
+
+            okPath = true;
+            if (seekStart(args).equals("")) {
+                err("In terminal: Args required.");
+                okPath = false;
+            }
+        }
+        return okName && okPath && icon != null && args != null;
     }
 
     @Deprecated
@@ -157,7 +170,7 @@ public class EntryForm implements Form {
         main.add(east, BorderLayout.EAST);
         main.add(west, BorderLayout.WEST);
         main.add(submit, BorderLayout.SOUTH);
-        main.setPreferredSize(Display.MIN_PAN_DIM);
+
     }
 
     private void addAll() {
@@ -172,20 +185,19 @@ public class EntryForm implements Form {
 
         isInTerminal = new JCheckBox("Terminal.");
 
-        //center = new JPanel(new GridLayout(4,1));
-        center = new JPanel(new FlowLayout());
-        nameField.setText("Name here!");
+        center = new JPanel(new GridLayout(4,1));
+        nameField.setText("");
         center.add(nameField);
         center.add(pathField);
         center.add(iconField);
         center.add(argsField);
+        center.setPreferredSize(Display.FORM_FIELDS_DIM);
 
         east = new JPanel(new GridLayout(4,1));
         east.add(new JPanel());
         east.add(browsePath);
         east.add(browseIcon);
         east.add(isInTerminal);
-        east.setPreferredSize(Display.MIN_PAN_DIM);
     }
 
     @Deprecated
@@ -216,7 +228,7 @@ public class EntryForm implements Form {
         return ctr;
     }
 
-    private class Ctr implements ActionListener, FormDriver {
+    public class Ctr implements ActionListener, FormDriver {
 
         private EntryFormListener listener;
 
@@ -240,6 +252,12 @@ public class EntryForm implements Form {
             fc.setMultiSelectionEnabled(false);
             switch (com) {
                 case "brw_ic":
+                    f = new File(StaticRef.IMG_FOLDER);
+                    if (f.isDirectory()) {
+                        fc.setCurrentDirectory(f);
+                    } else {
+                        err("No IMG Folder.");
+                    }
                     fc.setDialogTitle("Select an icon.");
                     fc.showDialog(null, "This icon");
                     f = fc.getSelectedFile();
@@ -267,8 +285,7 @@ public class EntryForm implements Form {
                         }
                         System.out.println("We've got a valid form! <" + instance + ">");
                         listener.AttendEntryFormListener(new EntryFormListenerRequest(instance, FormAction.ADD));
-                    } else
-                        err("Name and File are required");
+                    }
                     break;
                 default:
                     err("Unknown command!");

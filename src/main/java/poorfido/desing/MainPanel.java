@@ -18,8 +18,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
-import static poorfido.StaticRef.ERROR;
-import static poorfido.StaticRef.OK;
+import static poorfido.StaticRef.*;
 
 /**
  * Created by jose on 15/08/16.
@@ -32,9 +31,13 @@ public class MainPanel implements UserPanel {
     JButton     load,
                 save,
                 add,
-                del;
+                del,
+                showLog,
+                edit;
     JTextField idText;
     JTextArea log;
+
+    private boolean isLogDisplayed;
 
     public MainPanel() {
         frame = new JFrame("prLauncher");
@@ -51,6 +54,8 @@ public class MainPanel implements UserPanel {
         frame.setMinimumSize(Display.MIN_WINDOW_DIM);
         frame.pack();
         frame.setVisible(true);
+        displayLog(false);
+        isLogDisplayed = false;
     }
 
     private void build() {
@@ -58,23 +63,40 @@ public class MainPanel implements UserPanel {
         del = new JButton(new ImageIcon(StaticRef.DEL_ICON));
         save = new JButton(new ImageIcon(StaticRef.SAVE_ICON));
         load = new JButton(new ImageIcon(StaticRef.LOAD_ICON));
+        showLog = new JButton(new ImageIcon(LOG_OFF));
+        edit = new JButton(new ImageIcon(EDIT_ICON));
+        showLog.setBorder(BorderFactory.createEmptyBorder());
+        showLog.setContentAreaFilled(false);
+
+        //TOOLTIP
+        add.setToolTipText("Add a new App.");
+        load.setToolTipText("Load data.");
+        save.setToolTipText("Save data.");
+        edit.setToolTipText("Edit the App #xx");
+        del.setToolTipText("Delete the App #xx");
+        showLog.setToolTipText("Hides or shows the Log.");
+
 
         setEnabled(false);
         add.setActionCommand("+");
         del.setActionCommand("-");
         save.setActionCommand("s");
         load.setActionCommand("l");
+        showLog.setActionCommand("log");
+        edit.setActionCommand("e");
 
         idText = new JTextField("00");
         idText.setPreferredSize(Display.TWO_DIGITS_FIELD);
 
         top = new JPanel(new FlowLayout());
+        top.add(edit);
         top.add(save);
         top.add(load);
         top.add(add);
         top.add(del);
         top.add(idText);
         top.add(new JLabel("# to delete"));
+        top.add(showLog);
 
         center = new JPanel(new GridLayout(4,4));
         int i = 0;
@@ -101,6 +123,8 @@ public class MainPanel implements UserPanel {
         del.addActionListener(l);
         save.addActionListener(l);
         load.addActionListener(l);
+        showLog.addActionListener(l);
+        edit.addActionListener(l);
         setEnabled(true);
     }
 
@@ -121,6 +145,8 @@ public class MainPanel implements UserPanel {
         del.setEnabled(b);
         load.setEnabled(b);
         save.setEnabled(b);
+        edit.setEnabled(b);
+        showLog.setEnabled(b);
     }
 
     @Override
@@ -154,6 +180,28 @@ public class MainPanel implements UserPanel {
         return idText.getText();
     }
 
+    @Override
+    public void switchLog() {
+        isLogDisplayed = !isLogDisplayed;
+        displayLog(isLogDisplayed);
+        changeLogButton(isLogDisplayed);
+    }
+
+    private void changeLogButton(boolean b) {
+        if (b) showLog.setIcon(new ImageIcon(LOG_ON));
+        else
+            showLog.setIcon(new ImageIcon(LOG_OFF));
+    }
+
+    private void displayLog(boolean b) {
+        if (b) {
+            bottom.setVisible(true);
+        }else {
+            bottom.setVisible(false);
+        }
+        frame.repaint();
+        frame.pack();
+    }
 
     @Override
     public void noForm() {

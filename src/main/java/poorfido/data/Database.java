@@ -69,6 +69,8 @@ public class Database implements DataPersistenceSystem {
         System.out.println("Done.");
     }
 
+    public Iterator<App> iterator() { return content.iterator(); }
+
     public void save() {
         System.out.print("Size: " + size());
         if (size() == 0) {
@@ -159,4 +161,5 @@ public class Database implements DataPersistenceSystem {
 
         return "Contains: " + size() + " elements. [\n\t" + sb.toString() + "\n].";
     }
+
 }

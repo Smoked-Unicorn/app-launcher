@@ -29,5 +29,7 @@ public interface UserPanel {
     void buildButtonGrid(Set<App> apps);
     String getIDText();
 
+    void switchLog();
+
     void noForm();
 }

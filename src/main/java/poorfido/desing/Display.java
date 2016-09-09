@@ -21,4 +21,5 @@ public class Display {
     public static Dimension BROWSE_BTN_DIM = new Dimension(FIELD_HEIGHT, FIELD_HEIGHT);
     public static Dimension MIN_PAN_DIM = new Dimension(FIELD_WIDTH + FIELD_HEIGHT, FIELD_HEIGHT);
     public static Dimension MIN_WINDOW_DIM = new Dimension(500,300);
+    public static Dimension FORM_FIELDS_DIM = new Dimension(100, 75);
 }
